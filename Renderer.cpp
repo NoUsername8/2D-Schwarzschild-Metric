@@ -13,10 +13,10 @@
 
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
-#define SCALE 50
+#define SCALE 120
 
-#define LIMIT 100000
-#define STEP 0.01
+#define LIMIT 10000
+#define STEP 0.1
 constexpr double GRIDSIZE = 1;
 
 struct Probe{
@@ -45,53 +45,81 @@ int main() {
   SDL_RenderClear(renderer);
   SDL_Event event;
 
+  //Setup Simulation
   bool running = true;
   int index = 0;
   std::vector<Probe> probes;
   std::list<vec2> greenPoints;
   std::list<vec2> redPoints;
-  int pSize = 2;
-  probes.push_back(Probe{vec2{0, 0}, 0, 0, true});
+  int pSize = 4;
   probes.push_back(Probe{vec2{0, 0}, 0, 1, true});
+  probes.push_back(Probe{vec2{0, 0}, 0, -1, true});
+  probes.push_back(Probe{vec2{0, 0}, 0, 2, true});
+  probes.push_back(Probe{vec2{0, 0}, 0, -2, true});
 
-  while(running && index <= LIMIT) {
+  //Timestep
+  for(int i = 0; i < LIMIT; i++) {
 
-    for(int i = 0; i < pSize; i++) {
+    //For every probe
+    for(Probe p : probes) {
 
-
-      Probe p = probes[i];
+      //Spawn new probe
       if(fmod(p.distance, GRIDSIZE) == 0 && p.first) {
-        probes.push_back(Probe{p.position, 0, p.movingBasis == 0 ? 1 : 0, false});
+        int direction = std::abs(p.movingBasis) == 1 ? 2 : 1;
+        probes.push_back(Probe{p.position, 0, direction, false});
+        probes.push_back(Probe{p.position, 0, -direction, false});
       }
 
-      p.basis = getBasis(p.position);
+      //Move Probe
+      switch(p.movingBasis) {
+        case 1:
+          p.position = p.position + p.basis.e1 * STEP;
+          break;
+        case -1:
+          p.position = p.position + p.basis.e1 * -STEP;
+          break;
+        case 2:
+          p.position = p.position + p.basis.e2 * STEP;
+          break;
+        case -2:
+          p.position = p.position + p.basis.e2 * -STEP;
+          break;
+      }
 
-      if(p.movingBasis == 0) {
+      //Update Probe
+      p.basis = getBasis(p.position);
+      p.distance += STEP;
+
+      //Add Point to List
+      if(std::abs(p.movingBasis) == 1) {
         redPoints.push_back(p.position);
-        p.position = p.position + (p.basis.e1 * STEP);
       } else {
         greenPoints.push_back(p.position);
-        p.position = p.position + (p.basis.e2 * STEP);
       }
-
-      p.distance += STEP;
     }
 
+    //Render
+    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+    for(vec2 v : greenPoints) {
+      vec2 screen = ToScreenCoords(v, SCREEN_WIDTH, SCREEN_HEIGHT);
+      SDL_RenderDrawPoint(renderer, screen.x, screen.y);
+    }
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     for(vec2 v : redPoints) {
-      vec2 screen = ToScreenCoords(v, SCREEN_WIDTH, SCREEN_HEIGHT, SCALE);
+      vec2 screen = ToScreenCoords(v, SCREEN_WIDTH, SCREEN_HEIGHT);
       SDL_RenderDrawPoint(renderer, screen.x, screen.y);
     }
-    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-    for(vec2 v : redPoints) {
-      vec2 screen = ToScreenCoords(v, SCREEN_WIDTH, SCREEN_HEIGHT, SCALE);
-      SDL_RenderDrawPoint(renderer, screen.x, screen.y);
-    }
+    SDL_RenderPresent(renderer);
 
-    pSize == sizeof(probes) / sizeof(Probe);
-    index++;
+    //Update Array Size
+    pSize = sizeof(probes) / sizeof(Probe);
   }
 
+  //Wait
+  std::cout << "DONE!" << std::endl;
+  while(true);
+
+  //Quit
   SDL_DestroyWindow(window);
   SDL_DestroyRenderer(renderer);
   SDL_Quit();
