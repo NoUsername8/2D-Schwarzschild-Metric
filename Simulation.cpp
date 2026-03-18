@@ -23,54 +23,64 @@ bool cordGrid = false;
 #include "ScreenHelper.h"
 
 vec8 y[] = {
-    {10, -1, 0, 0, M_PI_2, 0, 0, 0},
-    {10, -1, 0, 0, M_PI_2, 0, 0, 0.0025},
-    {10, -1, 0, 0, M_PI_2, 0, 0, 0.005},
-    {10, -1, 0, 0, M_PI_2, 0, 0, 0.0075},
-    {10, -1, 0, 0, M_PI_2, 0, 0, 0.01},
-    {10, -1, 0, 0, M_PI_2, 0, 0, 0.0125},
-    {10, -1, 0, 0, M_PI_2, 0, 0, 0.015},
-    {10, -1, 0, 0, M_PI_2, 0, 0, 0.0175},
-    {10, -1, 0, 0, M_PI_2, 0, 0, 0.02},
-    {10, -1, 0, 0, M_PI_2, 0, 0, 0.0225},
-    {10, -1, 0, 0, M_PI_2, 0, 0, 0.025},
-    {10, -1, 0, 0, M_PI_2, 0, 0, 0.0275},
-    {10, -1, 0, 0, M_PI_2, 0, 0, 0.03},
-    {10, -1, 0, 0, M_PI_2, 0, 0, 0.0325},
-    {10, -1, 0, 0, M_PI_2, 0, 0, 0.035},
-    {10, -1, 0, 0, M_PI_2, 0, 0, 0.0375},
-    {10, -1, 0, 0, M_PI_2, 0, 0, 0.04},
-    {10, -1, 0, 0, M_PI_2, 0, 0, 0.0425},
-    {10, -1, 0, 0, M_PI_2, 0, 0, 0.045},
-    {10, -1, 0, 0, M_PI_2, 0, 0, 0.0475},
-    {10, -1, 0, 0, M_PI_2, 0, 0, 0.05},
-    {10, -1, 0, 0, M_PI_2, 0, 0, -0.0025},
-    {10, -1, 0, 0, M_PI_2, 0, 0, -0.005},
-    {10, -1, 0, 0, M_PI_2, 0, 0, -0.0075},
-    {10, -1, 0, 0, M_PI_2, 0, 0, -0.01},
-    {10, -1, 0, 0, M_PI_2, 0, 0, -0.0125},
-    {10, -1, 0, 0, M_PI_2, 0, 0, -0.015},
-    {10, -1, 0, 0, M_PI_2, 0, 0, -0.0175},
-    {10, -1, 0, 0, M_PI_2, 0, 0, -0.02},
-    {10, -1, 0, 0, M_PI_2, 0, 0, -0.0225},
-    {10, -1, 0, 0, M_PI_2, 0, 0, -0.025},
-    {10, -1, 0, 0, M_PI_2, 0, 0, -0.0275},
-    {10, -1, 0, 0, M_PI_2, 0, 0, -0.03},
-    {10, -1, 0, 0, M_PI_2, 0, 0, -0.0325},
-    {10, -1, 0, 0, M_PI_2, 0, 0, -0.035},
-    {10, -1, 0, 0, M_PI_2, 0, 0, -0.0375},
-    {10, -1, 0, 0, M_PI_2, 0, 0, -0.04},
-    {10, -1, 0, 0, M_PI_2, 0, 0, -0.0425},
-    {10, -1, 0, 0, M_PI_2, 0, 0, -0.045},
-    {10, -1, 0, 0, M_PI_2, 0, 0, -0.0475},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0},      {10, -1, 0, 0, M_PI_2, 0, 0, 0.0025},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.005},  {10, -1, 0, 0, M_PI_2, 0, 0, 0.0075},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.01},   {10, -1, 0, 0, M_PI_2, 0, 0, 0.0125},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.015},  {10, -1, 0, 0, M_PI_2, 0, 0, 0.0175},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.02},   {10, -1, 0, 0, M_PI_2, 0, 0, 0.0225},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.025},  {10, -1, 0, 0, M_PI_2, 0, 0, 0.0275},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.03},   {10, -1, 0, 0, M_PI_2, 0, 0, 0.0325},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.035},  {10, -1, 0, 0, M_PI_2, 0, 0, 0.0375},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.04},   {10, -1, 0, 0, M_PI_2, 0, 0, 0.0425},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.045},  {10, -1, 0, 0, M_PI_2, 0, 0, 0.0475},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.05},   {10, -1, 0, 0, M_PI_2, 0, 0, -0.0025},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.005}, {10, -1, 0, 0, M_PI_2, 0, 0, -0.0075},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.01},  {10, -1, 0, 0, M_PI_2, 0, 0, -0.0125},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.015}, {10, -1, 0, 0, M_PI_2, 0, 0, -0.0175},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.02},  {10, -1, 0, 0, M_PI_2, 0, 0, -0.0225},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.025}, {10, -1, 0, 0, M_PI_2, 0, 0, -0.0275},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.03},  {10, -1, 0, 0, M_PI_2, 0, 0, -0.0325},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.035}, {10, -1, 0, 0, M_PI_2, 0, 0, -0.0375},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.04},  {10, -1, 0, 0, M_PI_2, 0, 0, -0.0425},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.045}, {10, -1, 0, 0, M_PI_2, 0, 0, -0.0475},
     {10, -1, 0, 0, M_PI_2, 0, 0, -0.05},
-  };
+};
 constexpr int pointSize = sizeof(y) / sizeof(y[0]);
 
 constexpr double timeSpan = 100;
 constexpr double timeStep = 0.01;
 
 constexpr int movementRate = 2;
+
+vec8 variant1(vec8 y) {
+  vec8 k1 = getYPrime(y);
+  vec8 k2 = getYPrime(y + k1 * (timeStep / 2));
+  vec8 k3 = getYPrime(y + k2 * (timeStep / 2));
+  vec8 k4 = getYPrime(y + k3 * timeStep);
+  return y + (k1 + (k2 * 2) + (k3 * 2) + k4) * (timeStep / 6);
+}
+
+vec8 variant2(vec8 y_) {
+  vec6 y{y_.y1, y_.y2, y_.y4, y_.y5, y_.y6, y_.y8};
+
+  vec6 k1 = getYPrime(y);
+  vec6 k2 = getYPrime(y + k1 * (timeStep / 2));
+  vec6 k3 = getYPrime(y + k2 * (timeStep / 2));
+  vec6 k4 = getYPrime(y + k3 * timeStep);
+  y = y + (k1 + (k2 * 2) + (k3 * 2) + k4) * (timeStep / 6);
+
+  y_.y1 = y.y1;
+  y_.y2 = y.y2;
+  y_.y4 = y.y3;
+  y_.y5 = y.y4;
+  y_.y6 = y.y5;
+  y_.y8 = y.y6;
+
+  y_.y3 += timeStep * y_.y4;
+  y_.y7 += timeStep * y_.y8;
+
+  return y_;
+}
 
 int main() {
 
@@ -116,7 +126,7 @@ int main() {
 
   std::list<vec2> trajectory[pointSize];
   bool sim[pointSize];
-  for(int i = 0; i < pointSize; i++) {
+  for (int i = 0; i < pointSize; i++) {
     sim[i] = true;
   }
 
@@ -209,14 +219,17 @@ int main() {
         }
       }
     }
-    
-    if(cordGrid) {
+
+    if (cordGrid) {
       SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // WHITE
       vec2 originOnScreen = TransformToScreenCoords(0, 0, windowPos);
       for (int i = 0; i < 8; i++) {
         int size = 500000;
-        vec2 screenEndPoint = TransformToScreenCoords(size * std::cos(i * M_PI_4), size * std::sin(i * M_PI_4), windowPos);
-        SDL_RenderDrawLine(renderer, originOnScreen.x, originOnScreen.y, screenEndPoint.x, screenEndPoint.y);
+        vec2 screenEndPoint =
+            TransformToScreenCoords(size * std::cos(i * M_PI_4),
+                                    size * std::sin(i * M_PI_4), windowPos);
+        SDL_RenderDrawLine(renderer, originOnScreen.x, originOnScreen.y,
+                           screenEndPoint.x, screenEndPoint.y);
       }
     }
     for (int i = 0; i < pointSize; i++) {
@@ -232,7 +245,8 @@ int main() {
 
       double velocity = std::sqrt(vT * vT + vR * vR + vA * vA + vP * vP);
 
-      if(pointR <= rs) sim[i] = false;
+      if (pointR <= rs)
+        sim[i] = false;
 
       // Display Basis
       /*Basis basis = getPolarBasis(pointR, pointT);
@@ -252,14 +266,8 @@ int main() {
       SDL_RenderDrawLine(renderer, probeOnScreen.x, probeOnScreen.y,
                          tPointOnScreen.x, tPointOnScreen.y);*/
 
-      if(sim[i]) {
-
-        // RK4
-        vec8 k1 = getYPrime(y[i]);
-        vec8 k2 = getYPrime(y[i] + k1 * (timeStep / 2));
-        vec8 k3 = getYPrime(y[i] + k2 * (timeStep / 2));
-        vec8 k4 = getYPrime(y[i] + k3 * timeStep);
-        y[i] = y[i] + (k1 + (k2 * 2) + (k3 * 2) + k4) * (timeStep / 6);
+      if (sim[i]) {
+        y[i] = variant2(y[i]);
 
         // Add point to Trajectory
         vec2 cartesianPosition = CartesianTransformaion(pointR, pointT);

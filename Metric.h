@@ -8,6 +8,7 @@ constexpr double c = 2;
 constexpr double G = 1;
 constexpr double rs = (2 * G * M) / (c * c);
 
+vec6 getYPrime(vec6 y);
 vec8 getYPrime(vec8 y);
 
 #endif
