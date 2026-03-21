@@ -75,3 +75,12 @@ TransformingVector UpdateBasis(TransformingVector v, double t, double r) {
 double cot(double x) {
   return x == 0 ? 100000 : 1 / std::tan(x);
 }
+
+double Dot6(vec6 a, vec6 b) {
+  return a.y1 * b.y1
+        + a.y2 * b.y2
+        + a.y3 * b.y3
+        + a.y4 * b.y4
+        + a.y5 * b.y5
+        + a.y6 * b.y6;
+}

@@ -26,6 +26,32 @@ struct vec6 {
   vec6 operator*(double a) {
     return vec6{a * y1, a * y2, a * y3, a * y4, a * y5, a * y6};
   }
+
+  double* val(int index) {
+    switch (index) {
+    case 1:
+      return &y1;
+      break;
+    case 2:
+      return &y1;
+      break;
+    case 3:
+      return &y1;
+      break;
+    case 4:
+      return &y1;
+      break;
+    case 5:
+      return &y1;
+      break;
+    case 6:
+      return &y1;
+      break;
+    default:
+      return &y1;
+      break;
+    }
+  }
 };
 
 struct vec8 {
@@ -66,5 +92,100 @@ vec2 PolarTransformation(double x, double y);
 TransformingVector UpdateBasis(TransformingVector v, double t, double r);
 vec2 CalcPolarPositionFormBasis(Basis b);
 double cot(double x);
+double Dot6(vec6 a, vec6 b);
+
+struct matrix6x6{
+
+  vec6 row1;
+  vec6 row2;
+  vec6 row3;
+  vec6 row4;
+  vec6 row5;
+  vec6 row6;
+
+  vec6 operator*(vec6 a) {
+    return vec6{
+      Dot6(row1, a),
+      Dot6(row2, a),
+      Dot6(row3, a),
+      Dot6(row4, a),
+      Dot6(row5, a),
+      Dot6(row6, a)
+    };
+  }
+
+  vec6* getRow(int index) {
+    switch (index) {
+      case 1:
+        return &row1;
+        break;
+      case 2:
+        return &row2;
+        break;
+      case 3:
+        return &row3;
+        break;
+      case 4:
+        return &row4;
+        break;
+      case 5:
+        return &row5;
+        break;
+      case 6:
+        return &row6;
+        break;
+      default:
+        return &row1;
+        break;
+    }
+  }
+
+  matrix6x6 clone() {
+    //do this
+  }
+
+  double determinant() {
+    matrix6x6 tmp = clone();
+    vec6 p;
+    tmp.LU(p);
+	  double det = 1;
+    for(int i = 0; i < 6; i++) {
+	    if (*p.val(i) != i) {
+		    det *= -1;
+	    }
+	    det *= *(*tmp.getRow(i)).val(i);
+    }
+    return det;
+  }
+
+  void LU(vec6 p) {;
+    for(int j = 0; j < 6; j++) {
+      *p.val(j) = j;
+      double alpha = std::abs(*(*getRow(j)).val(j));
+      for(int i = j + 1; i < 6; i++) {
+        if(std::abs(*(*getRow(i)).val(j)) > alpha) {
+          alpha = std::abs(*(*getRow(i)).val(j));
+          *p.val(j) = i;
+        }
+      }
+      if(*p.val(j) != j) {
+        vec6 rowJ = *getRow(j);
+        *getRow(j) = *getRow((int)*p.val(j));
+        *getRow((int)*p.val(j)) = rowJ;
+      }
+      for(int i = j + 1; i < 6; i++) {
+        *(*getRow(i)).val(j) /= *(*getRow(j)).val(j);
+        for(int l = j + 1; l < 6; l++) {
+          *(*getRow(i)).val(l) -= *(*getRow(i)).val(j) * *(*getRow(j)).val(l);
+        }
+      }
+    }
+  }
+
+
+
+
+
+};
 
 #endif
