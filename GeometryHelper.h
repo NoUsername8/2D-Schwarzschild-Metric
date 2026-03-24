@@ -1,3 +1,4 @@
+#include <string>
 #ifndef GEOMETRYHELPER_H
 #define GEOMETRYHELPER_H
 
@@ -140,8 +141,24 @@ struct matrix6x6{
     }
   }
 
+  matrix6x6 transpose() {
+    matrix6x6 mat;
+    for(int i = 0; i < 6; i++) {
+      for(int j = 0; j < 6; j++) {
+        *(*mat.getRow(i)).val(j) = *(*getRow(j)).val(i);
+      } 
+    }
+    return mat;
+  }
+
   matrix6x6 clone() {
-    //do this
+    matrix6x6 mat;
+    for(int i = 0; i < 6; i++) {
+      for(int j = 0; j < 6; j++) {
+        *(*mat.getRow(i)).val(j) = *(*getRow(i)).val(j);
+      } 
+    }
+    return mat;
   }
 
   double determinant() {
@@ -156,6 +173,45 @@ struct matrix6x6{
 	    det *= *(*tmp.getRow(i)).val(i);
     }
     return det;
+  }
+
+  matrix6x6 inverse() {
+    if(determinant() == 0) {
+      return clone();
+    }
+
+    matrix6x6 tmp = clone();
+    vec6 p;
+    matrix6x6 inv;
+    tmp.LU(p);
+    for(int i = 0; i < 6; i++) {
+	    vec6 b{0, 0, 0, 0, 0, 0};
+	    *b.val(i) = 1;
+	    tmp.solve(p, b);
+	    *inv.getRow(i) = b;
+	  }
+	  return inv.transpose();
+  }
+
+  void solve(vec6 p, vec6 b) {
+    for(int i = 0; i < 6; i++) {
+      if(*p.val(i) != i) {
+        double tmp = *b.val(i);
+        *b.val(i) = *b.val((int)*p.val(i));
+        *b.val((int)*p.val(i)) = tmp;
+      }
+    }
+    for(int i = 0; i < 6; i++) {
+      for(int j = 0; j < i; j++) {
+        *b.val(i) -= *(*getRow(i)).val(j) * *b.val(j);
+      }
+    }
+    for(int i = 5; i >= 0; i--) {
+      for(int j = i + 1; j < 6; j++) {
+        *b.val(i) -= *(*getRow(i)).val(j) * *b.val(j);
+      }
+      *b.val(i) /= *(*getRow(i)).val(i);
+    }
   }
 
   void LU(vec6 p) {;
@@ -182,10 +238,16 @@ struct matrix6x6{
     }
   }
 
-
-
-
-
+  std::string toString() {
+    std::string string = "";
+    for(int i = 0; i < 6; i++) {
+      for(int j = 0; j < 6; j++) {
+        string += *(*getRow(i)).val(j);
+      } 
+      string += "\n";
+    }
+    return string;
+  }
 };
 
 #endif

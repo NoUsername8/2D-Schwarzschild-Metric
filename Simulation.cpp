@@ -84,6 +84,19 @@ vec8 variant2(vec8 y_) {
 
 int main() {
 
+  matrix6x6 testMatrix{
+    {7, 9, -2, 10, -1, 5},
+    {-8, -6, 2, -2, 3, -8},
+    {-5, -1, 10, 2, 5, 9},
+    {5, 0, 3, -7, 1, 7},
+    {-7, 8, 1, 5, -10, 7},
+    {3, -4, -9, 9, 3, -2}
+  };
+  double determinant = testMatrix.determinant();
+  matrix6x6 inverse = testMatrix.inverse();
+
+  printf("Matrix: %s \n Determinant: %lf \n\n Inverse: %s", testMatrix, determinant, inverse);
+
   // Setup SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     printf("Couldn't initialize SDL: %s\n", SDL_GetError());
