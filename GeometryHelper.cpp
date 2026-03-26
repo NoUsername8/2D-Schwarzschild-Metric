@@ -4,16 +4,106 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
-vec6
-operator*(vec6 v, double a)
-{
-    return vec6{a * v.y1, a * v.y2, a * v.y3, a * v.y4, a * v.y5, a * v.y6};
+//------------------------------------------------------------------------------
+
+vec2 operator+(vec2 a, vec2 b) {
+    return vec2{a.x + b.x, a.y + b.y};
 }
 
-vec6
-operator*(double a, vec6 v)
-{
-    return v * a;
+vec2 operator-(vec2 a, vec2 b) {
+    return vec2{a.x - b.x, a.y - b.y};
+}
+
+vec2 operator*(double a, vec2 v) {
+    return vec2{a * v.x, a * v.y};
+}
+
+vec2 operator*(vec2 v, double a) {
+    return a * v;
+}
+
+//------------------------------------------------------------------------------
+
+vec6 operator+(vec6 a, vec6 b) {
+    return vec6{
+        a(0) + b(0),
+        a(1) + b(1),
+        a(2) + b(2),
+        a(3) + b(3),
+        a(4) + b(4),
+        a(5) + b(5)
+    };
+}
+
+vec6 operator-(vec6 a, vec6 b) {
+    return vec6{
+        a(0) - b(0),
+        a(1) - b(1),
+        a(2) - b(2),
+        a(3) - b(3),
+        a(4) - b(4),
+        a(5) - b(5)
+    };
+}
+
+vec6 operator*(double a, vec6 v) {
+    return vec6{
+        a * v(0),
+        a * v(1),
+        a * v(2),
+        a * v(3),
+        a * v(4),
+        a * v(5)
+    };
+}
+
+vec6 operator*(vec6 v, double a) {
+    return a * v;
+}
+
+//------------------------------------------------------------------------------
+
+vec8 operator+(vec8 a, vec8 b) {
+    return vec8{
+        a(0) + b(0),
+        a(1) + b(1),
+        a(2) + b(2),
+        a(3) + b(3),
+        a(4) + b(4),
+        a(5) + b(5),
+        a(6) + b(6),
+        a(7) + b(7)
+    };
+}
+
+vec8 operator-(vec8 a, vec8 b) {
+    return vec8{
+        a(0) - b(0),
+        a(1) - b(1),
+        a(2) - b(2),
+        a(3) - b(3),
+        a(4) - b(4),
+        a(5) - b(5),
+        a(6) - b(6),
+        a(7) - b(7)
+    };
+}
+
+vec8 operator*(double a, vec8 v) {
+    return vec8{
+        a * v(0),
+        a * v(1),
+        a * v(2),
+        a * v(3),
+        a * v(4),
+        a * v(5),
+        a * v(6),
+        a * v(7)
+    };
+}
+
+vec8 operator*(vec8 v, double a) {
+    return a * v;
 }
 
 //------------------------------------------------------------------------------

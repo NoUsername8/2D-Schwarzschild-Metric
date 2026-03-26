@@ -3,51 +3,50 @@
 #ifndef GEOMETRYHELPER_H
 #define GEOMETRYHELPER_H
 
-struct vec2
-{
-    double x;
-    double y;
+//------------------------------------------------------------------------------
 
-    vec2
-    operator+(const vec2 a)
-    {
-	return vec2{a.x + x, a.y + y};
-    }
+struct vec2 {
+	union {
+		struct {
+    		double x;
+    		double y;
+		};
+		double val[2];
+	};
 
-    vec2
-    operator-(vec2 a)
-    {
-	return vec2{-a.x + x, -a.y + y};
+	double operator()(int i) const {
+		return val[i];
+	}
+
+	double & operator()(int i) {
+		return val[i];
     }
 };
+
+vec2 operator+(vec2 a, vec2 b);
+vec2 operator-(vec2 a, vec2 b);
+vec2 operator*(double a, vec2 v);
+vec2 operator*(vec2 v, double a);
+
+//------------------------------------------------------------------------------
 
 struct vec6
 {
     union {
-	struct
-	{
-	    double y1;
-	    double y2;
-	    double y3;
-	    double y4;
-	    double y5;
-	    double y6;
-	};
-	double y[6];
+		struct {
+			double y1;
+			double y2;
+			double y3;
+			double y4;
+			double y5;
+			double y6;
+		};
+		double y[6];
     };
 
-    vec6
-    operator+(vec6 a)
-    {
-	return vec6{a.y1 + y1, a.y2 + y2, a.y3 + y3,
-	            a.y4 + y4, a.y5 + y5, a.y6 + y6};
-    }
-
-    double &
-    val(int index)
-    {
-	return y[index];
-    }
+	double & val(int i) {
+		return y[i];
+	}
 
     double
     operator()(int i) const
@@ -72,37 +71,48 @@ struct vec6
     }
 };
 
-vec6
-operator*(vec6 v, double a);
+vec6 operator+(vec6 a, vec6 b);
+vec6 operator-(vec6 a, vec6 b);
+vec6 operator*(vec6 v, double a);
+vec6 operator*(double a, vec6 v);
 
-vec6
-operator*(double a, vec6 v);
+//------------------------------------------------------------------------------
 
 struct vec8
 {
-    double y1;
-    double y2;
-    double y3;
-    double y4;
-    double y5;
-    double y6;
-    double y7;
-    double y8;
+	union {
+		struct {
+			double y1;
+			double y2;
+			double y3;
+			double y4;
+			double y5;
+			double y6;
+			double y7;
+			double y8;
+		};
+		double y[8];
+	};
 
-    vec8
-    operator+(vec8 a)
+   	double
+    operator()(int i) const
     {
-	return vec8{a.y1 + y1, a.y2 + y2, a.y3 + y3, a.y4 + y4,
-	            a.y5 + y5, a.y6 + y6, a.y7 + y7, a.y8 + y8};
+		return y[i];
     }
 
-    vec8
-    operator*(double a)
+    double &
+    operator()(int i)
     {
-	return vec8{a * y1, a * y2, a * y3, a * y4,
-	            a * y5, a * y6, a * y7, a * y8};
+		return y[i];
     }
 };
+
+vec8 operator+(vec8 a, vec8 b);
+vec8 operator-(vec8 a, vec8 b);
+vec8 operator*(vec8 v, double a);
+vec8 operator*(double a, vec8 v);
+
+//------------------------------------------------------------------------------
 
 struct Basis
 {
@@ -142,6 +152,8 @@ cot(double x);
 
 double
 Dot6(vec6 a, vec6 b);
+
+//------------------------------------------------------------------------------
 
 struct matrix6x6
 {
