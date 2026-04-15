@@ -7,16 +7,22 @@
 #include <cmath>
 
 vec6 getYPrime(vec6 y) {
-  double a = y.y1 - rs;
-  return vec6{y.y2,
-              -((rs / 2) * a / (y.y1 * y.y1 * y.y1)) * y.y3 * y.y3 +
-                  (rs / 2) / (y.y1 * a) * y.y2 * y.y2 + a * y.y5 * y.y5 +
-                  a * std::sin(y.y4) * std::sin(y.y4) * y.y6 * y.y6,
-              -rs / (a * y.y1) * y.y2 * y.y3,
-              y.y5,
-              -2 / y.y1 * y.y2 * y.y5 +
-                  std::sin(y.y4) * std::cos(y.y4) * y.y6 * y.y6,
-              -2 / y.y1 * y.y2 * y.y6 - 2 * cot(y.y4) * y.y5 * y.y6};
+  double r = y.y1;
+  double dr = y.y2;
+  double dt = y.y3;
+  double h = y.y4;
+  double dh = y.y5;
+  double dp = y.y6;
+
+  double a = r - rs;
+  return vec6{dr,
+              -((rs / 2) * a / (r * r * r)) * dt * dt +
+                  (rs / 2) / (r * a) * dr * dr + a * dh * dh +
+                  a * std::sin(h) * std::sin(h) * dp * dp,
+              -rs / (a * r) * dr * dt,
+              dh,
+              -2 / r * dr * dh + std::sin(h) * std::cos(h) * dp * dp,
+              -2 / r * dr * dp - 2 * cot(h) * dh * dp};
 }
 
 vec8 getYPrime(vec8 y) {

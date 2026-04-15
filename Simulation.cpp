@@ -23,32 +23,58 @@ bool cordGrid = false;
 #include "ScreenHelper.h"
 
 vec8 y[] = {
-    /*{10, -1, 0, 0, M_PI_2, 0, 0, 0},      {10, -1, 0, 0, M_PI_2, 0, 0,
-    0.0025}, {10, -1, 0, 0, M_PI_2, 0, 0, 0.005},  {10, -1, 0, 0, M_PI_2, 0, 0,
-    0.0075}, {10, -1, 0, 0, M_PI_2, 0, 0, 0.01},   {10, -1, 0, 0, M_PI_2, 0, 0,
-    0.0125}, {10, -1, 0, 0, M_PI_2, 0, 0, 0.015},  {10, -1, 0, 0, M_PI_2, 0, 0,
-    0.0175}, {10, -1, 0, 0, M_PI_2, 0, 0, 0.02},   {10, -1, 0, 0, M_PI_2, 0, 0,
-    0.0225}, {10, -1, 0, 0, M_PI_2, 0, 0, 0.025},  {10, -1, 0, 0, M_PI_2, 0, 0,
-    0.0275}, {10, -1, 0, 0, M_PI_2, 0, 0, 0.03},   {10, -1, 0, 0, M_PI_2, 0, 0,
-    0.0325}, {10, -1, 0, 0, M_PI_2, 0, 0, 0.035},  {10, -1, 0, 0, M_PI_2, 0, 0,
-    0.0375}, {10, -1, 0, 0, M_PI_2, 0, 0, 0.04},   {10, -1, 0, 0, M_PI_2, 0, 0,
-    0.0425}, {10, -1, 0, 0, M_PI_2, 0, 0, 0.045},  {10, -1, 0, 0, M_PI_2, 0, 0,
-    0.0475}, {10, -1, 0, 0, M_PI_2, 0, 0, 0.05},   {10, -1, 0, 0, M_PI_2, 0, 0,
-    -0.0025}, {10, -1, 0, 0, M_PI_2, 0, 0, -0.005}, {10, -1, 0, 0, M_PI_2, 0, 0,
-    -0.0075}, {10, -1, 0, 0, M_PI_2, 0, 0, -0.01},  {10, -1, 0, 0, M_PI_2, 0, 0,
-    -0.0125}, {10, -1, 0, 0, M_PI_2, 0, 0, -0.015}, {10, -1, 0, 0, M_PI_2, 0, 0,
-    -0.0175}, {10, -1, 0, 0, M_PI_2, 0, 0, -0.02},  {10, -1, 0, 0, M_PI_2, 0, 0,
-    -0.0225}, {10, -1, 0, 0, M_PI_2, 0, 0, -0.025}, {10, -1, 0, 0, M_PI_2, 0, 0,
-    -0.0275}, {10, -1, 0, 0, M_PI_2, 0, 0, -0.03},  {10, -1, 0, 0, M_PI_2, 0, 0,
-    -0.0325}, {10, -1, 0, 0, M_PI_2, 0, 0, -0.035}, {10, -1, 0, 0, M_PI_2, 0, 0,
-    -0.0375}, {10, -1, 0, 0, M_PI_2, 0, 0, -0.04},  {10, -1, 0, 0, M_PI_2, 0, 0,
-    -0.0425}, {10, -1, 0, 0, M_PI_2, 0, 0, -0.045}, {10, -1, 0, 0, M_PI_2, 0, 0,
-    -0.0475}, {10, -1, 0, 0, M_PI_2, 0, 0, -0.05},*/
-    {0.9 * rs, 0, 0, 0, M_PI_2, 0, M_PI_2, 1}};
+    /*{10, -1, 0, 0, M_PI_2, 0, 0, 0},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.0025},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.005},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.0075},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.01},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.0125},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.015},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.0175},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.02},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.0225},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.025},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.0275},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.03},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.0325},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.035},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.0375},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.04},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.0425},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.045},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.0475},
+    {10, -1, 0, 0, M_PI_2, 0, 0, 0.05},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.0025},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.005},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.0075},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.01},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.0125},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.015},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.0175},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.02},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.0225},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.025},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.0275},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.03},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.0325},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.035},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.0375},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.04},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.0425},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.045},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.0475},
+    {10, -1, 0, 0, M_PI_2, 0, 0, -0.05},*/
+    {1.1 * rs, 0, 0, 0, M_PI_2, 0, M_PI_2, 1},
+    {1.2 * rs, 0, 0, 0, M_PI_2, 0, M_PI_2, 1},
+    {1.3 * rs, 0, 0, 0, M_PI_2, 0, M_PI_2, 1},
+    {1.4 * rs, 0, 0, 0, M_PI_2, 0, M_PI_2, 1},
+    {1.5 * rs, 0, 0, 0, M_PI_2, 0, M_PI_2, 1},
+    {1.6 * rs, 0, 0, 0, M_PI_2, 0, M_PI_2, 1},
+};
 constexpr int pointSize = sizeof(y) / sizeof(y[0]);
 
 constexpr double timeSpan = 100;
-constexpr double timeStep = 0.01;
+constexpr double timeStep = 0.001;
 
 constexpr int movementRate = 2;
 
@@ -82,6 +108,50 @@ vec8 variant2(vec8 y_) {
   return y_;
 }
 
+vec8 variant5(vec8 y_) {
+
+  vec6 y{y_.y1, y_.y2, y_.y4, y_.y5, y_.y6, y_.y8};
+
+  printf("Vector y: %s \n", y.toString().c_str());
+
+  matrix6x6 inverse = getYPrimePrime(y).inverse();
+
+  vec6 yNew = y;
+
+  for (int i = 0; i < 200; i++) {
+
+    printf("yPrime: %s \n", getYPrime(yNew).toString().c_str());
+    // vec6 phi = (yNew - y) * (1 / timeStep) - getYPrime(yNew);
+    // matrix6x6 phi_ = (1 / timeStep) * id6x6() - getYPrimePrime(yNew);
+    vec6 phi = yNew - y - timeStep * getYPrime((yNew + y) * 0.5);
+    matrix6x6 phi_ =
+        id6x6() - timeStep * 0.5 * getYPrimePrime((yNew + y) * 0.5);
+    y = yNew;
+    yNew = y - phi_.inverse() * phi;
+    if (true || i == 19) {
+
+      printf("Phi: %s \n", phi.toString().c_str());
+    }
+  }
+  printf("--------------------------------------------------------------- \n");
+
+  printf("yNew: %s \n", yNew.toString().c_str());
+
+  y = yNew;
+
+  y_.y1 = y.y1;
+  y_.y2 = y.y2;
+  y_.y4 = y.y3;
+  y_.y5 = y.y4;
+  y_.y6 = y.y5;
+  y_.y8 = y.y6;
+
+  y_.y3 += timeStep * y_.y4;
+  y_.y7 += timeStep * y_.y8;
+
+  return y_;
+}
+
 vec8 variant3(vec8 y_) {
 
   vec6 y{y_.y1, y_.y2, y_.y4, y_.y5, y_.y6, y_.y8};
@@ -90,22 +160,46 @@ vec8 variant3(vec8 y_) {
 
   matrix6x6 inverse = getYPrimePrime(y).inverse();
 
-  printf("Inverse: %s \n", inverse.toString().c_str());
-
-  printf("Result: %s \n", (getYPrimePrime(y) * inverse).toString().c_str());
-
   vec6 yNew = y;
 
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < 20; i++) {
 
-    vec6 phi = (yNew - y) * (1 / timeStep) - getYPrime(yNew);
-    matrix6x6 phi_ = (1 / timeStep) * id6x6() - getYPrimePrime(yNew);
+    printf("yPrime: %s \n", getYPrime(yNew).toString().c_str());
+    // vec6 phi = (yNew - y) * (1 / timeStep) - getYPrime(yNew);
+    // matrix6x6 phi_ = (1 / timeStep) * id6x6() - getYPrimePrime(yNew);
+    vec6 phi = yNew - y - timeStep * getYPrime(yNew);
+    matrix6x6 phi_ = id6x6() - timeStep * getYPrimePrime(yNew);
     y = yNew;
     yNew = y - phi_.inverse() * phi;
-    printf("yNew: %s \n", yNew.toString().c_str());
+    if (true || i == 19) {
+
+      printf("Phi: %s \n", phi.toString().c_str());
+    }
   }
 
+  printf("yNew: %s \n", yNew.toString().c_str());
+
   y = yNew;
+
+  y_.y1 = y.y1;
+  y_.y2 = y.y2;
+  y_.y4 = y.y3;
+  y_.y5 = y.y4;
+  y_.y6 = y.y5;
+  y_.y8 = y.y6;
+
+  y_.y3 += timeStep * y_.y4;
+  y_.y7 += timeStep * y_.y8;
+
+  return y_;
+}
+
+vec8 variant4(vec8 y_) {
+
+  vec6 y{y_.y1, y_.y2, y_.y4, y_.y5, y_.y6, y_.y8};
+
+  vec6 k1 = getYPrime(y);
+  y = y + timeStep * k1;
 
   y_.y1 = y.y1;
   y_.y2 = y.y2;
@@ -306,7 +400,7 @@ int main() {
                          tPointOnScreen.x, tPointOnScreen.y);*/
 
       if (sim[i]) {
-        y[i] = variant2(y[i]);
+        y[i] = variant5(y[i]);
 
         // Add point to Trajectory
         vec2 cartesianPosition = CartesianTransformaion(pointR, pointT);

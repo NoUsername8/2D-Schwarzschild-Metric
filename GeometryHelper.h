@@ -48,7 +48,7 @@ struct vec6 {
   std::string toString() {
     std::stringstream ss;
     for (int i = 0; i < 6; ++i) {
-      ss << " " << (int)val(i);
+      ss << " " << val(i);
     }
     return ss.str();
   }
