@@ -4,6 +4,15 @@
 
 #define _USE_MATH_DEFINES
 #include <cmath>
+//------------------------------------------------------------------------------
+
+vec3 operator+(vec3 a, vec3 b) { return vec3{a.x + b.x, a.y + b.y, a.z + b.z}; }
+
+vec3 operator-(vec3 a, vec3 b) { return vec3{a.x - b.x, a.y - b.y, a.z - b.z}; }
+
+vec3 operator*(double a, vec3 v) { return vec3{a * v.x, a * v.y, a * v.z}; }
+
+vec3 operator*(vec3 v, double a) { return a * v; }
 
 //------------------------------------------------------------------------------
 
@@ -106,7 +115,57 @@ matrix6x6 operator*(double x, const matrix6x6 &A) {
   return C;
 }
 
-matrix6x6 operator*(const matrix6x6 &A, double x) { return x * A; }
+matrix6x6 operator*(const matrix6x6 &A, double x) { return x * A; };
+//------------------------------------------------------------------------------
+
+matrix3x3 operator*(const matrix3x3 &A, const matrix3x3 &B) {
+  matrix3x3 C;
+  for (int i = 0; i < 3; ++i) {
+    for (int j = 0; j < 3; ++j) {
+      C(i, j) = 0;
+      for (int l = 0; l < 3; ++l) {
+        C(i, j) += A(i, l) * B(l, j);
+      }
+    }
+  }
+  return C;
+}
+
+matrix3x3 operator+(const matrix3x3 &A, const matrix3x3 &B) {
+
+  matrix3x3 C;
+  for (int i = 0; i < 3; ++i) {
+    for (int j = 0; j < 3; ++j) {
+      C(i, j) = A(i, j) + B(i, j);
+    }
+  }
+  return C;
+}
+
+matrix3x3 operator-(const matrix3x3 &A, const matrix3x3 &B) {
+
+  matrix3x3 C;
+  for (int i = 0; i < 3; ++i) {
+    for (int j = 0; j < 3; ++j) {
+      C(i, j) = A(i, j) - B(i, j);
+    }
+  }
+  return C;
+}
+
+matrix3x3 id3x3() { return matrix3x3{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}; }
+
+matrix3x3 operator*(double x, const matrix3x3 &A) {
+  matrix3x3 C;
+  for (int i = 0; i < 3; ++i) {
+    for (int j = 0; j < 3; ++j) {
+      C(i, j) = A(i, j) * x;
+    }
+  }
+  return C;
+}
+
+matrix3x3 operator*(const matrix3x3 &A, double x) { return x * A; };
 //------------------------------------------------------------------------------
 
 double getAngle(double x, double y) {
@@ -200,3 +259,5 @@ double Dot6(vec6 a, vec6 b) {
   return a.y1 * b.y1 + a.y2 * b.y2 + a.y3 * b.y3 + a.y4 * b.y4 + a.y5 * b.y5 +
          a.y6 * b.y6;
 }
+
+double Dot3(vec3 a, vec3 b) { return a.x * b.x + a.y * b.y + a.z * b.z; }

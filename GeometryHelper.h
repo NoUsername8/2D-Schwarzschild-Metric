@@ -1,7 +1,8 @@
-#include <sstream>
-#include <string>
 #ifndef GEOMETRYHELPER_H
 #define GEOMETRYHELPER_H
+
+#include <sstream>
+#include <string>
 
 //------------------------------------------------------------------------------
 
@@ -23,6 +24,30 @@ vec2 operator+(vec2 a, vec2 b);
 vec2 operator-(vec2 a, vec2 b);
 vec2 operator*(double a, vec2 v);
 vec2 operator*(vec2 v, double a);
+
+//------------------------------------------------------------------------------
+
+struct vec3 {
+  union {
+    struct {
+      double x;
+      double y;
+      double z;
+    };
+    double values[3];
+  };
+
+  double &val(int i) { return values[i]; }
+
+  double operator()(int i) const { return values[i]; }
+
+  double &operator()(int i) { return values[i]; }
+};
+
+vec3 operator+(vec3 a, vec3 b);
+vec3 operator-(vec3 a, vec3 b);
+vec3 operator*(double a, vec3 v);
+vec3 operator*(vec3 v, double a);
 
 //------------------------------------------------------------------------------
 
@@ -117,6 +142,153 @@ double cot(double x);
 double csc(double x);
 
 double Dot6(vec6 a, vec6 b);
+
+double Dot3(vec3 a, vec3 b);
+
+//------------------------------------------------------------------------------
+
+struct matrix3x3 {
+  union {
+    struct {
+      vec3 row1;
+      vec3 row2;
+      vec3 row3;
+    };
+    vec3 row[3];
+  };
+
+  matrix3x3() = default;
+
+  matrix3x3(vec3 row1, vec3 row2, vec3 row3)
+      : row1{row1}, row2{row2}, row3{row3} {}
+
+  vec3 operator*(vec3 a) {
+    return vec3{Dot3(row1, a), Dot3(row2, a), Dot3(row3, a)};
+  }
+
+  vec3 &getRow(int index) { return row[index]; }
+
+  double operator()(int i, int j) const { return row[i](j); }
+
+  double &operator()(int i, int j) { return row[i](j); }
+
+  matrix3x3 transpose() {
+    matrix3x3 mat;
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 3; j++) {
+        mat.getRow(i).val(j) = getRow(j).val(i);
+      }
+    }
+    return mat;
+  }
+
+  matrix3x3 clone() {
+    matrix3x3 mat;
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 3; j++) {
+        mat.getRow(i).val(j) = getRow(i).val(j);
+      }
+    }
+    return mat;
+  }
+
+  double determinant() {
+    matrix3x3 tmp = clone();
+    vec3 p;
+    tmp.LU(p);
+    double det = 1;
+    for (int i = 0; i < 3; i++) {
+      if (p.val(i) != i) {
+        det *= -1;
+      }
+      det *= tmp.getRow(i).val(i);
+    }
+    return det;
+  }
+
+  matrix3x3 inverse() {
+    if (determinant() == 0) {
+      return clone();
+    }
+
+    matrix3x3 tmp = clone();
+    vec3 p;
+    matrix3x3 inv;
+    tmp.LU(p);
+    for (int i = 0; i < 3; i++) {
+      vec3 b{0, 0, 0};
+      b.val(i) = 1;
+
+      tmp.solve(p, b);
+      inv.getRow(i) = b;
+    }
+    return inv.transpose();
+  }
+
+  void solve(vec3 p, vec3 &b) {
+    for (int i = 0; i < 3; i++) {
+      if (p.val(i) != i) {
+        double tmp = b.val(i);
+        b.val(i) = b.val((int)p.val(i));
+        b.val((int)p.val(i)) = tmp;
+      }
+    }
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < i; j++) {
+        b.val(i) -= getRow(i).val(j) * b.val(j);
+      }
+    }
+    for (int i = 2; i >= 0; i--) {
+      for (int j = i + 1; j < 3; j++) {
+        b.val(i) -= getRow(i).val(j) * b.val(j);
+      }
+      b.val(i) /= getRow(i).val(i);
+    }
+  }
+
+  void LU(vec3 &p) {
+
+    for (int j = 0; j < 3; j++) {
+      p.val(j) = j;
+      double alpha = std::abs(getRow(j).val(j));
+      for (int i = j + 1; i < 3; i++) {
+        if (std::abs(getRow(i).val(j)) > alpha) {
+          alpha = std::abs(getRow(i).val(j));
+          p.val(j) = i;
+        }
+      }
+      if (p.val(j) != j) {
+        vec3 rowJ = getRow(j);
+        getRow(j) = getRow((int)p.val(j));
+        getRow((int)p.val(j)) = rowJ;
+      }
+      for (int i = j + 1; i < 3; i++) {
+        getRow(i).val(j) /= getRow(j).val(j);
+        for (int l = j + 1; l < 3; l++) {
+          getRow(i).val(l) -= getRow(i).val(j) * getRow(j).val(l);
+        }
+      }
+    }
+  }
+
+  std::string toString() {
+    std::ostringstream ss;
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 3; j++) {
+        ss << " " << getRow(i).val(j);
+      }
+      ss << "\n";
+    }
+    return ss.str();
+  }
+};
+
+matrix3x3 id3x3();
+matrix3x3 operator*(const matrix3x3 A, const matrix3x3 &B);
+matrix3x3 operator*(double x, const matrix3x3 &A);
+matrix3x3 operator*(const matrix3x3 &A, double x);
+matrix3x3 operator+(const matrix3x3 &A, const matrix3x3 B);
+matrix3x3 operator-(const matrix3x3 &A, const matrix3x3 &B);
 
 //------------------------------------------------------------------------------
 

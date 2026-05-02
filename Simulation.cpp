@@ -64,12 +64,7 @@ vec8 y[] = {
     {10, -1, 0, 0, M_PI_2, 0, 0, -0.045},
     {10, -1, 0, 0, M_PI_2, 0, 0, -0.0475},
     {10, -1, 0, 0, M_PI_2, 0, 0, -0.05},*/
-    {1.1 * rs, 0, 0, 0, M_PI_2, 0, M_PI_2, 1},
-    {1.2 * rs, 0, 0, 0, M_PI_2, 0, M_PI_2, 1},
-    {1.3 * rs, 0, 0, 0, M_PI_2, 0, M_PI_2, 1},
-    {1.4 * rs, 0, 0, 0, M_PI_2, 0, M_PI_2, 1},
     {1.5 * rs, 0, 0, 0, M_PI_2, 0, M_PI_2, 1},
-    {1.6 * rs, 0, 0, 0, M_PI_2, 0, M_PI_2, 1},
 };
 constexpr int pointSize = sizeof(y) / sizeof(y[0]);
 
@@ -78,141 +73,7 @@ constexpr double timeStep = 0.001;
 
 constexpr int movementRate = 2;
 
-vec8 variant1(vec8 y) {
-  vec8 k1 = getYPrime(y);
-  vec8 k2 = getYPrime(y + k1 * (timeStep / 2));
-  vec8 k3 = getYPrime(y + k2 * (timeStep / 2));
-  vec8 k4 = getYPrime(y + k3 * timeStep);
-  return y + (k1 + (k2 * 2) + (k3 * 2) + k4) * (timeStep / 6);
-}
-
-vec8 variant2(vec8 y_) {
-  vec6 y{y_.y1, y_.y2, y_.y4, y_.y5, y_.y6, y_.y8};
-
-  vec6 k1 = getYPrime(y);
-  vec6 k2 = getYPrime(y + k1 * (timeStep / 2));
-  vec6 k3 = getYPrime(y + k2 * (timeStep / 2));
-  vec6 k4 = getYPrime(y + k3 * timeStep);
-  y = y + (k1 + (k2 * 2) + (k3 * 2) + k4) * (timeStep / 6);
-
-  y_.y1 = y.y1;
-  y_.y2 = y.y2;
-  y_.y4 = y.y3;
-  y_.y5 = y.y4;
-  y_.y6 = y.y5;
-  y_.y8 = y.y6;
-
-  y_.y3 += timeStep * y_.y4;
-  y_.y7 += timeStep * y_.y8;
-
-  return y_;
-}
-
-vec8 variant5(vec8 y_) {
-
-  vec6 y{y_.y1, y_.y2, y_.y4, y_.y5, y_.y6, y_.y8};
-
-  printf("Vector y: %s \n", y.toString().c_str());
-
-  matrix6x6 inverse = getYPrimePrime(y).inverse();
-
-  vec6 yNew = y;
-
-  for (int i = 0; i < 200; i++) {
-
-    printf("yPrime: %s \n", getYPrime(yNew).toString().c_str());
-    // vec6 phi = (yNew - y) * (1 / timeStep) - getYPrime(yNew);
-    // matrix6x6 phi_ = (1 / timeStep) * id6x6() - getYPrimePrime(yNew);
-    vec6 phi = yNew - y - timeStep * getYPrime((yNew + y) * 0.5);
-    matrix6x6 phi_ =
-        id6x6() - timeStep * 0.5 * getYPrimePrime((yNew + y) * 0.5);
-    y = yNew;
-    yNew = y - phi_.inverse() * phi;
-    if (true || i == 19) {
-
-      printf("Phi: %s \n", phi.toString().c_str());
-    }
-  }
-  printf("--------------------------------------------------------------- \n");
-
-  printf("yNew: %s \n", yNew.toString().c_str());
-
-  y = yNew;
-
-  y_.y1 = y.y1;
-  y_.y2 = y.y2;
-  y_.y4 = y.y3;
-  y_.y5 = y.y4;
-  y_.y6 = y.y5;
-  y_.y8 = y.y6;
-
-  y_.y3 += timeStep * y_.y4;
-  y_.y7 += timeStep * y_.y8;
-
-  return y_;
-}
-
-vec8 variant3(vec8 y_) {
-
-  vec6 y{y_.y1, y_.y2, y_.y4, y_.y5, y_.y6, y_.y8};
-
-  printf("Vector y: %s \n", y.toString().c_str());
-
-  matrix6x6 inverse = getYPrimePrime(y).inverse();
-
-  vec6 yNew = y;
-
-  for (int i = 0; i < 20; i++) {
-
-    printf("yPrime: %s \n", getYPrime(yNew).toString().c_str());
-    // vec6 phi = (yNew - y) * (1 / timeStep) - getYPrime(yNew);
-    // matrix6x6 phi_ = (1 / timeStep) * id6x6() - getYPrimePrime(yNew);
-    vec6 phi = yNew - y - timeStep * getYPrime(yNew);
-    matrix6x6 phi_ = id6x6() - timeStep * getYPrimePrime(yNew);
-    y = yNew;
-    yNew = y - phi_.inverse() * phi;
-    if (true || i == 19) {
-
-      printf("Phi: %s \n", phi.toString().c_str());
-    }
-  }
-
-  printf("yNew: %s \n", yNew.toString().c_str());
-
-  y = yNew;
-
-  y_.y1 = y.y1;
-  y_.y2 = y.y2;
-  y_.y4 = y.y3;
-  y_.y5 = y.y4;
-  y_.y6 = y.y5;
-  y_.y8 = y.y6;
-
-  y_.y3 += timeStep * y_.y4;
-  y_.y7 += timeStep * y_.y8;
-
-  return y_;
-}
-
-vec8 variant4(vec8 y_) {
-
-  vec6 y{y_.y1, y_.y2, y_.y4, y_.y5, y_.y6, y_.y8};
-
-  vec6 k1 = getYPrime(y);
-  y = y + timeStep * k1;
-
-  y_.y1 = y.y1;
-  y_.y2 = y.y2;
-  y_.y4 = y.y3;
-  y_.y5 = y.y4;
-  y_.y6 = y.y5;
-  y_.y8 = y.y6;
-
-  y_.y3 += timeStep * y_.y4;
-  y_.y7 += timeStep * y_.y8;
-
-  return y_;
-}
+vec3 variant1(vec3 y) { return y + timeStep * getYPrime(y); }
 
 int main() {
 
@@ -250,10 +111,10 @@ int main() {
             ? std::sqrt(y[i].y2 * y[i].y2 + y[i].y4 * y[i].y4 +
                         y[i].y6 * y[i].y6 + y[i].y8 * y[i].y8)
             : 1;
-    y[i].y2 = (y[i].y2 / velocityMagnitude) * c;
-    y[i].y4 = (y[i].y4 / velocityMagnitude) * c;
-    y[i].y6 = (y[i].y6 / velocityMagnitude) * c;
-    y[i].y8 = (y[i].y8 / velocityMagnitude) * c;
+    y[i].y2 = (y[i].y2 / velocityMagnitude);
+    y[i].y4 = (y[i].y4 / velocityMagnitude);
+    y[i].y6 = (y[i].y6 / velocityMagnitude);
+    y[i].y8 = (y[i].y8 / velocityMagnitude);
   }
 
   std::list<vec2> trajectory[pointSize];
@@ -400,7 +261,12 @@ int main() {
                          tPointOnScreen.x, tPointOnScreen.y);*/
 
       if (sim[i]) {
-        y[i] = variant5(y[i]);
+        vec3 y3 = vec3{y[i].y1, y[i].y2, y[i].y8};
+        y3 = variant1(y3);
+        y[i].y1 = y3.x;
+        y[i].y2 = y3.y;
+        y[i].y7 += timeStep * y3.z;
+        y[i].y8 = y3.z;
 
         // Add point to Trajectory
         vec2 cartesianPosition = CartesianTransformaion(pointR, pointT);
@@ -420,10 +286,10 @@ int main() {
               ? std::sqrt(y[i].y2 * y[i].y2 + y[i].y4 * y[i].y4 +
                           y[i].y6 * y[i].y6 + y[i].y8 * y[i].y8)
               : 1;
-      y[i].y2 = (y[i].y2 / velocityMagnitude) * c;
-      y[i].y4 = (y[i].y4 / velocityMagnitude) * c;
-      y[i].y6 = (y[i].y6 / velocityMagnitude) * c;
-      y[i].y8 = (y[i].y8 / velocityMagnitude) * c;
+      y[i].y2 = (y[i].y2 / velocityMagnitude);
+      y[i].y4 = (y[i].y4 / velocityMagnitude);
+      y[i].y6 = (y[i].y6 / velocityMagnitude);
+      y[i].y8 = (y[i].y8 / velocityMagnitude);
 
       // Teleport
       if (tp) {
