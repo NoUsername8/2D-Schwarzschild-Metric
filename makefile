@@ -13,10 +13,11 @@ CC_TTF=-lSDL2_ttf
 all:Build
 
 Build:
-	g++ -c GeometryHelper.cpp
-	g++ -c ScreenHelper.cpp
+	g++ -c math/Polar.cpp
+	g++ -c math/Matrix.cpp
 	g++ -c Metric.cpp
-	$(CC) $(S_FILES) -w $(CC_SDL) -w $(CC_TTF) -o $(EXEC) GeometryHelper.o ScreenHelper.o Metric.o
+	g++ -c ScreenHelper.cpp
+	$(CC) $(S_FILES) -w $(CC_SDL) -w $(CC_TTF) -o $(EXEC) Matrix.o Polar.o ScreenHelper.o Metric.o
 
 build_run:Build
 	$(EXEC)

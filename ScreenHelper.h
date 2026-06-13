@@ -1,8 +1,8 @@
 #ifndef SCREENHELPER_H
 #define SCREENHELPER_H
-#include "GeometryHelper.h"
+#include "math/Vector.hpp"
 
-vec2 TransformToScreenCoords(double x, double y, vec2 windowPos);
-vec2 TransformToSimulationCoords(double x, double y, vec2 windowPos);
+Vector<2> TransformToScreenCoords(double x, double y, Vector<2> windowPos);
+Vector<2> TransformToSimulationCoords(double x, double y, Vector<2> windowPos);
 
 #endif
