@@ -12,7 +12,7 @@
 #define SCREEN_HEIGHT 720
 #define SCALE 25
 #define THICKNESS 0.98
-#define boundary 15
+#define boundary 30
 #define TOLERANCE 1e-10
 
 bool text = false;
@@ -69,6 +69,48 @@ Vector<8> y[] = {
     Vector<8>({1.5 * rs, 0, 0, 0, M_PI_2, 0, M_PI_2, 1}),
     Vector<8>({1.25 * rs, 0, 0, 0, M_PI_2, 0, M_PI_2, 1}),
     Vector<8>({1.05 * rs, 0, 0, 0, M_PI_2, 0, M_PI_2, 1}),
+    /*Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 0, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 0.1 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 0.2 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 0.3 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 0.4 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 0.5 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 0.6 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 0.7 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 0.8 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 0.9 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 1.0 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 1.1 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 1.2 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 1.3 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 1.4 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 1.5 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 1.6 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 1.7 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 1.8 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 1.9 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 2.0 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 2.1 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 2.2 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 2.3 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 2.4 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 2.5 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 2.6 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 2.7 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 2.8 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 2.9 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 3.0 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 3.1 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 3.2 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 3.3 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 3.4 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 3.5 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 3.6 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 3.7 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 3.8 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 3.9 * M_PI_2, 0.9}),
+    Vector<8>({20, -0.1, 0, 0, M_PI_2, 0, 4.0 * M_PI_2, 0.9}),*/
+
 };
 constexpr int pointSize = sizeof(y) / sizeof(y[0]);
 
@@ -84,21 +126,31 @@ Vector<3> variant2(Vector<3> y) {
   double vals[3][3] = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
   Matrix<3, 3> id3x3(vals);
 
-  Vector<3> yNew = y;
+  Vector<3> y0 = y;
+  Vector<3> y1 = y;
+  Vector<3> y2 = y;
 
-  for (int i = 0; i < 200; i++) {
+  for (int i = 0; i < 10; i++) {
 
-    // vec6 phi = (yNew - y) * (1 / timeStep) - getYPrime(yNew);
-    // matrix6x6 phi_ = (1 / timeStep) * id6x6() - getYPrimePrime(yNew);
-    Vector<3> phi = yNew - y - timeStep * getYPrime((yNew + y) * 0.5);
+    Vector<3> phi = y1 - y0 - timeStep * getYPrime((y1 + y0) * 0.5);
+    printf("%d 0.5 * (yNew + y): %s \n", i,
+           (0.5 * y1 + 0.5 * y0).toString().c_str());
+    printf("%d Mag: %g \n", i, phi.magnitude());
+    // if (phi.magnitude() < 10e-8 && i > 2) {
+    //   break;
+    // }
     Matrix<3, 3> phi_ =
-        id3x3 - timeStep * 0.5 * getYPrimePrime((yNew + y) * 0.5);
+        id3x3 - timeStep * 0.5 * getYPrimePrime((y1 + y0) * 0.5);
     printf("%d PHI: %s \n", i, phi.toString().c_str());
-    y = yNew;
-    yNew = y - inv(phi_) * phi;
+    printf("%d PHIPrime: %s \n", i, phi_.toString().c_str());
+    printf("%d Inv * phi_: %s \n", i, (inv(phi_) * phi_).toString().c_str());
+    y2 = y1 - inv(phi_) * phi;
+    printf("%d y: %s \n\n", i, y2.toString().c_str());
+    printf("%d yNew-y: %s \n\n", i, (y1 - y0).toString().c_str());
+    y0 = y1;
+    y1 = y2;
   }
-  y = yNew;
-
+  y = y2;
   return y;
 }
 
@@ -140,6 +192,7 @@ int main() {
             : 1;
     y[i](1) = (y[i](1) / velocityMagnitude);
     y[i](3) = (y[i](3) / velocityMagnitude);
+
     y[i](5) = (y[i](5) / velocityMagnitude);
     y[i](7) = (y[i](7) / velocityMagnitude);
   }
@@ -151,9 +204,6 @@ int main() {
   }
 
   for (int t = 0; t <= timeSpan; t += timeStep) {
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-    SDL_RenderClear(renderer);
-
     // Event Handler
     do {
       while (SDL_PollEvent(&event)) {
@@ -236,6 +286,11 @@ int main() {
         if (r >= rs && r <= rs + THICKNESS / SCALE) {
           SDL_SetRenderDrawColor(renderer, 255, 0, 255,
                                  255); // PURPLE
+          SDL_RenderDrawPoint(renderer, x, y);
+        }
+        if (false && r >= 1.5 * rs &&
+            r <= 1.5 * rs + THICKNESS / (2.0 * SCALE)) {
+          SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
           SDL_RenderDrawPoint(renderer, x, y);
         }
       }

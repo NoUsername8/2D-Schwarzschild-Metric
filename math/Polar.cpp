@@ -14,3 +14,5 @@ Vector<2> cartesianToPolar(Vector<2> cartesianCoords) {
                    std::atan2(cartesianCoords(1), cartesianCoords(0))};
   return Vector<2>(val);
 }
+
+double cot(double x) { return std::cos(x) == 0 ? 1000000 : 1 / std::cos(x); }
