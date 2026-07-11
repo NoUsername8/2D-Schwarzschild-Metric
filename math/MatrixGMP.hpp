@@ -1,12 +1,13 @@
 #ifndef MATRIXGMP_HPP
 #define MATRIXGMP_HPP
 
+#include "../mpreal.h"
 #include "Vector.hpp"
 #include "VectorGMP.hpp"
 #include <gmpxx.h>
 template <int m, int n> class MatrixGMP {
 
-  mpf_class val[m][n];
+  mpfr::mpreal val[m][n];
 
 public:
   MatrixGMP() {
@@ -17,7 +18,7 @@ public:
     }
   }
 
-  MatrixGMP(double (&values)[m][n]) {
+  MatrixGMP(mpfr::mpreal (&values)[m][n]) {
     for (int i = 0; i < m; i++) {
       for (int j = 0; j < n; j++) {
         val[i][j] = values[i][j];
@@ -25,9 +26,9 @@ public:
     }
   }
 
-  mpf_class operator()(int i, int j) const { return val[i][j]; }
+  mpfr::mpreal operator()(int i, int j) const { return val[i][j]; }
 
-  mpf_class &operator()(int i, int j) { return val[i][j]; }
+  mpfr::mpreal &operator()(int i, int j) { return val[i][j]; }
 
   MatrixGMP<n, m> transposed() const {
     MatrixGMP<n, m> out;
@@ -58,11 +59,11 @@ public:
   friend MatrixGMP<mSize, nSize> operator-(const MatrixGMP<mSize, nSize> &a,
                                            const MatrixGMP<mSize, nSize> &b);
   template <int mSize, int nSize>
-  friend MatrixGMP<mSize, nSize> operator*(const double &a,
+  friend MatrixGMP<mSize, nSize> operator*(const mpfr::mpreal &a,
                                            const MatrixGMP<mSize, nSize> &b);
   template <int mSize, int nSize>
   friend MatrixGMP<mSize, nSize> operator*(const MatrixGMP<mSize, nSize> &a,
-                                           const double &b);
+                                           const mpfr::mpreal &b);
   template <int mSize, int nSize, int lSize>
   friend MatrixGMP<mSize, nSize> operator*(const MatrixGMP<mSize, lSize> &a,
                                            const MatrixGMP<lSize, nSize> &b);
@@ -74,7 +75,7 @@ public:
     std::ostringstream ss;
     for (int i = 0; i < m; i++) {
       for (int j = 0; j < n; j++) {
-        ss << " " << this->operator()(i, j).get_str();
+        ss << " " << this->operator()(i, j);
       }
       ss << "\n";
     }
@@ -85,10 +86,10 @@ public:
 template <int n> void LU(MatrixGMP<n, n> &a, Vector<n> &p) {
   for (int j = 0; j < n; j++) {
     p(j) = j;
-    mpf_class alpha = std::abs(a(j, j));
+    mpfr::mpreal alpha = mpfr::abs(a(j, j));
     for (int i = j + 1; i < n; i++) {
-      if (std::abs(a(i, j)) > alpha) {
-        alpha = std::abs(a(i, j));
+      if (mpfr::abs(a(i, j)) > alpha) {
+        alpha = mpfr::abs(a(i, j));
         p(j) = i;
       }
     }
@@ -109,7 +110,7 @@ template <int n> void LU(MatrixGMP<n, n> &a, Vector<n> &p) {
 template <int n> void solve(MatrixGMP<n, n> &a, Vector<n> &p, VectorGMP<n> &b) {
   for (int i = 0; i < n; i++) {
     if (p(i) != i) {
-      mpf_class tmp = b(i);
+      mpfr::mpreal tmp = b(i);
       b(i) = b((int)p(i));
       b((int)p(i)) = tmp;
     }
@@ -127,10 +128,10 @@ template <int n> void solve(MatrixGMP<n, n> &a, Vector<n> &p, VectorGMP<n> &b) {
   }
 }
 
-template <int n> mpf_class det(MatrixGMP<n, n> a) {
+template <int n> mpfr::mpreal det(MatrixGMP<n, n> a) {
   Vector<n> p;
   LU(a, p);
-  mpf_class det = 1;
+  mpfr::mpreal det = 1;
   for (int i = 0; i < n; i++) {
     if (p(i) != i) {
       det *= -1;
@@ -140,11 +141,11 @@ template <int n> mpf_class det(MatrixGMP<n, n> a) {
   return det;
 }
 
-mpf_class det(const MatrixGMP<1, 1> &a);
+mpfr::mpreal det(const MatrixGMP<1, 1> &a);
 
-mpf_class det(const MatrixGMP<2, 2> &a);
+mpfr::mpreal det(const MatrixGMP<2, 2> &a);
 
-mpf_class det(const MatrixGMP<3, 3> &a);
+mpfr::mpreal det(const MatrixGMP<3, 3> &a);
 
 template <int n> MatrixGMP<n, n> inv(MatrixGMP<n, n> a) {
   if (det(a) == 0) {
@@ -188,7 +189,7 @@ MatrixGMP<mSize, nSize> operator-(const MatrixGMP<mSize, nSize> &a,
 
 template <int mSize, int nSize>
 MatrixGMP<mSize, nSize> operator*(const MatrixGMP<mSize, nSize> &a,
-                                  const mpf_class &b) {
+                                  const mpfr::mpreal &b) {
   MatrixGMP<mSize, nSize> out;
   for (int i = 0; i < mSize; i++) {
     for (int j = 0; j < nSize; j++) {
@@ -199,7 +200,7 @@ MatrixGMP<mSize, nSize> operator*(const MatrixGMP<mSize, nSize> &a,
 }
 
 template <int mSize, int nSize>
-MatrixGMP<mSize, nSize> operator*(const mpf_class &a,
+MatrixGMP<mSize, nSize> operator*(const mpfr::mpreal &a,
                                   const MatrixGMP<mSize, nSize> &b) {
   MatrixGMP<mSize, nSize> out;
   for (int i = 0; i < mSize; i++) {

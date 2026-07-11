@@ -1,12 +1,13 @@
 #ifndef VECTORGMP_HPP
 #define VECTORGMP_HPP
 
+#include "../mpreal.h"
 #include <cmath>
 #include <gmpxx.h>
 #include <sstream>
 template <int size> class VectorGMP {
 
-  mpf_class val[size];
+  mpfr::mpreal val[size];
 
 public:
   VectorGMP() {
@@ -15,35 +16,35 @@ public:
     }
   }
 
-  VectorGMP(const mpf_class (&values)[size]) {
+  VectorGMP(const mpfr::mpreal (&values)[size]) {
     for (int i = 0; i < size; i++) {
       val[i] = values[i];
     }
   }
 
-  mpf_class operator()(int i) const { return val[i]; }
+  mpfr::mpreal operator()(int i) const { return val[i]; }
 
-  mpf_class &operator()(int i) { return val[i]; }
+  mpfr::mpreal &operator()(int i) { return val[i]; }
 
-  mpf_class magnitude() const {
-    mpf_class sum("0");
+  mpfr::mpreal magnitude() const {
+    mpfr::mpreal sum("0");
     for (int i = 0; i < size; i++) {
       sum += (val[i] * val[i]);
     }
-    return sqrt(sum);
+    return mpfr::sqrt(sum);
   }
 
-  VectorGMP<size> normalized(mpf_class a) const {
+  VectorGMP<size> normalized(mpfr::mpreal a) const {
     VectorGMP<size> norm;
-    mpf_class coefficient = a / magnitude();
+    mpfr::mpreal coefficient = a / magnitude();
     for (int i = 0; i < size; i++) {
       norm(i) = val[i] * coefficient;
     }
     return norm;
   }
 
-  void normalize(mpf_class a) {
-    mpf_class coefficient = a / magnitude();
+  void normalize(mpfr::mpreal a) {
+    mpfr::mpreal coefficient = a / magnitude();
     for (int i = 0; i < size; i++) {
       val[i] *= coefficient;
     }
@@ -54,16 +55,16 @@ public:
   template <int s>
   friend VectorGMP<s> operator-(const VectorGMP<s> &a, const VectorGMP<s> &b);
   template <int s>
-  friend VectorGMP<s> operator*(const double &a, const VectorGMP<s> &b);
+  friend VectorGMP<s> operator*(const mpfr::mpreal &a, const VectorGMP<s> &b);
   template <int s>
-  friend VectorGMP<s> operator*(const VectorGMP<s> &a, const double &b);
+  friend VectorGMP<s> operator*(const VectorGMP<s> &a, const mpfr::mpreal &b);
   template <int s>
-  friend double operator*(const VectorGMP<s> &a, const VectorGMP<s> &b);
+  friend mpfr::mpreal operator*(const VectorGMP<s> &a, const VectorGMP<s> &b);
 
   std::string toString() {
     std::stringstream stream;
     for (int i = 0; i < size; i++) {
-      stream << " " << val[i].get_str();
+      stream << " " << val[i];
     }
     return stream.str();
   }
@@ -88,7 +89,7 @@ VectorGMP<s> operator-(const VectorGMP<s> &a, const VectorGMP<s> &b) {
 }
 
 template <int s>
-VectorGMP<s> operator*(const double &a, const VectorGMP<s> &b) {
+VectorGMP<s> operator*(const mpfr::mpreal &a, const VectorGMP<s> &b) {
   VectorGMP<s> out;
   for (int i = 0; i < s; i++) {
     out(i) = a * b(i);
@@ -97,7 +98,7 @@ VectorGMP<s> operator*(const double &a, const VectorGMP<s> &b) {
 }
 
 template <int s>
-VectorGMP<s> operator*(const VectorGMP<s> &a, const double &b) {
+VectorGMP<s> operator*(const VectorGMP<s> &a, const mpfr::mpreal &b) {
   VectorGMP<s> out;
   for (int i = 0; i < s; i++) {
     out(i) = a(i) * b;
@@ -106,8 +107,8 @@ VectorGMP<s> operator*(const VectorGMP<s> &a, const double &b) {
 }
 
 template <int s>
-mpf_class operator*(const VectorGMP<s> &a, const VectorGMP<s> &b) {
-  mpf_class sum = 0;
+mpfr::mpreal operator*(const VectorGMP<s> &a, const VectorGMP<s> &b) {
+  mpfr::mpreal sum = 0;
   for (int i = 0; i < s; i++) {
     sum += a(i) * b(i);
   }
