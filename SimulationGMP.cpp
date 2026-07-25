@@ -1,3 +1,4 @@
+#include "mpreal.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <list>
@@ -12,7 +13,7 @@
 #define SCALE 25
 #define THICKNESS 0.98
 #define boundary 30
-#define TOLERANCE 1e-11
+#define TOLERANCE 1e-8
 
 bool text = false;
 bool tp = false;
@@ -24,7 +25,9 @@ bool cordGrid = false;
 #include "math/Polar.hpp"
 #include "math/VectorGMP.hpp"
 
-VectorGMP<8> y[] = {
+VectorGMP<8> y[100];
+
+/*VectorGMP<8> y[] = {
     VectorGMP<8>({10, -1, 0, 0, M_PI_2, 0, 0, 0}),
     VectorGMP<8>({10, -1, 0, 0, M_PI_2, 0, 0, 0.0025}),
     VectorGMP<8>({10, -1, 0, 0, M_PI_2, 0, 0, 0.005}),
@@ -66,10 +69,10 @@ VectorGMP<8> y[] = {
     VectorGMP<8>({10, -1, 0, 0, M_PI_2, 0, 0, -0.045}),
     VectorGMP<8>({10, -1, 0, 0, M_PI_2, 0, 0, -0.0475}),
     VectorGMP<8>({10, -1, 0, 0, M_PI_2, 0, 0, -0.05}),
-    VectorGMP<8>({1.5 * rs, 0, 0, 0, M_PI_2, 0, M_PI_2, 1}),
+VectorGMP<8>({1.5 * rs, 0, 0, 0, M_PI_2, 0, M_PI_2, 1}),
     VectorGMP<8>({1.25 * rs, 0, 0, 0, M_PI_2, 0, M_PI_2, 1}),
     VectorGMP<8>({1.05 * rs, 0, 0, 0, M_PI_2, 0, M_PI_2, 1}),
-    /*VectorGMP<8>({20, -0.1, 0, 0, M_PI_2, 0, 0, 0.9}),
+    VectorGMP<8>({20, -0.1, 0, 0, M_PI_2, 0, 0, 0.9}),
     VectorGMP<8>({20, -0.1, 0, 0, M_PI_2, 0, 0.1 * M_PI_2, 0.9}),
     VectorGMP<8>({20, -0.1, 0, 0, M_PI_2, 0, 0.2 * M_PI_2, 0.9}),
     VectorGMP<8>({20, -0.1, 0, 0, M_PI_2, 0, 0.3 * M_PI_2, 0.9}),
@@ -109,9 +112,10 @@ VectorGMP<8> y[] = {
     VectorGMP<8>({20, -0.1, 0, 0, M_PI_2, 0, 3.7 * M_PI_2, 0.9}),
     VectorGMP<8>({20, -0.1, 0, 0, M_PI_2, 0, 3.8 * M_PI_2, 0.9}),
     VectorGMP<8>({20, -0.1, 0, 0, M_PI_2, 0, 3.9 * M_PI_2, 0.9}),
-    VectorGMP<8>({20, -0.1, 0, 0, M_PI_2, 0, 4.0 * M_PI_2, 0.9}),*/
+    VectorGMP<8>({20, -0.1, 0, 0, M_PI_2, 0, 4.0 * M_PI_2, 0.9}),
 
-};
+};*/
+
 constexpr int pointSize = sizeof(y) / sizeof(y[0]);
 
 constexpr double timeSpan = 100;
@@ -134,20 +138,20 @@ VectorGMP<3> variant2(VectorGMP<3> y) {
   for (int i = 0; i < maxSteps; i++) {
 
     VectorGMP<3> phi = y1 - y0 - timeStep * getYPrime((y1 + y0) * 0.5);
-    printf("%d 0.5 * (yNew + y): %s \n", i,
-           (0.5 * y1 + 0.5 * y0).toString().c_str());
-    std::cout << "MAG: " << phi.magnitude() << std::endl;
+    // printf("%d 0.5 * (yNew + y): %s \n", i,
+    //        (0.5 * y1 + 0.5 * y0).toString().c_str());
+    // std::cout << "MAG: " << phi.magnitude() << std::endl;
     if (phi.magnitude() < TOLERANCE) {
       break;
     }
     MatrixGMP<3, 3> phi_ =
         id3x3 - timeStep * 0.5 * getYPrimePrime((y1 + y0) * 0.5);
-    printf("%d PHI: %s \n", i, phi.toString().c_str());
-    printf("%d PHIPrime: %s \n", i, phi_.toString().c_str());
-    printf("%d Inv * phi_: %s \n", i, (inv(phi_) * phi_).toString().c_str());
+    // printf("%d PHI: %s \n", i, phi.toString().c_str());
+    // printf("%d PHIPrime: %s \n", i, phi_.toString().c_str());
+    // printf("%d Inv * phi_: %s \n", i, (inv(phi_) * phi_).toString().c_str());
     y2 = y1 - inv(phi_) * phi;
-    printf("%d y: %s \n\n", i, y2.toString().c_str());
-    printf("%d yNew-y: %s \n\n", i, (y1 - y0).toString().c_str());
+    // printf("%d y: %s \n\n", i, y2.toString().c_str());
+    // printf("%d yNew-y: %s \n\n", i, (y1 - y0).toString().c_str());
     y0 = y1;
     y1 = y2;
   }
@@ -157,6 +161,22 @@ VectorGMP<3> variant2(VectorGMP<3> y) {
 
 int main() {
   mpfr::mpreal::set_default_prec(1024);
+
+  VectorGMP<2> commonVelocity = VectorGMP<2>({-1, 0});
+  for (int i = 0; i < 100; i++) {
+    double x = 10;
+    double yVal =
+        i * SCREEN_HEIGHT / (100.0 * SCALE) - (SCREEN_HEIGHT / (2.0 * SCALE));
+    VectorGMP<2> pointCartesian = VectorGMP<2>({x, yVal});
+    VectorGMP<2> radialBase = VectorGMP<2>({0, 0}) - pointCartesian;
+    radialBase.normalize(1);
+    mpfr::mpreal dot = radialBase * commonVelocity;
+    VectorGMP<2> pointPolar = cartesianToPolar(VectorGMP<2>({x, yVal}));
+    y[i] = VectorGMP<8>(
+        {pointPolar(0), dot, 0, 0, M_PI_2, 0, pointPolar(1),
+         commonVelocity.magnitude() *
+             mpfr::sin(mpfr::acos(dot / commonVelocity.magnitude()))});
+  }
   // Setup SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     printf("Couldn't initialize SDL: %s\n", SDL_GetError());
@@ -289,8 +309,7 @@ int main() {
                                  255); // PURPLE
           SDL_RenderDrawPoint(renderer, x, y);
         }
-        if (false && r >= 1.5 * rs &&
-            r <= 1.5 * rs + THICKNESS / (2.0 * SCALE)) {
+        if (r >= 1.5 * rs && r <= 1.5 * rs + THICKNESS / (2.0 * SCALE)) {
           SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
           SDL_RenderDrawPoint(renderer, x, y);
         }
