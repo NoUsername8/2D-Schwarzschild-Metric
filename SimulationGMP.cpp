@@ -168,14 +168,15 @@ int main() {
     double yVal =
         i * SCREEN_HEIGHT / (100.0 * SCALE) - (SCREEN_HEIGHT / (2.0 * SCALE));
     VectorGMP<2> pointCartesian = VectorGMP<2>({x, yVal});
-    VectorGMP<2> radialBase = VectorGMP<2>({0, 0}) - pointCartesian;
-    radialBase.normalize(1);
-    mpfr::mpreal dot = radialBase * commonVelocity;
     VectorGMP<2> pointPolar = cartesianToPolar(VectorGMP<2>({x, yVal}));
-    y[i] = VectorGMP<8>(
-        {pointPolar(0), dot, 0, 0, M_PI_2, 0, pointPolar(1),
-         commonVelocity.magnitude() *
-             mpfr::sin(mpfr::acos(dot / commonVelocity.magnitude()))});
+    VectorGMP<2> polarVelocity =
+        VectorGMP<2>({commonVelocity(0) * mpfr::cos(pointPolar(1)) +
+                          commonVelocity(1) * mpfr::sin(pointPolar(1)),
+                      -(commonVelocity(0) * mpfr::sin(pointPolar(1)) -
+                        commonVelocity(1) * mpfr::cos(pointPolar(1))) /
+                          pointPolar(0)});
+    y[i] = VectorGMP<8>({pointPolar(0), polarVelocity(0), 0, 0, M_PI_2, 0,
+                         pointPolar(1), polarVelocity(1)});
   }
   // Setup SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
